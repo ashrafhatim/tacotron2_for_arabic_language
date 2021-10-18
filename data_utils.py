@@ -2,6 +2,7 @@ import random
 import numpy as np
 import torch
 import torch.utils.data
+from arabic_pronounce import phonetise
 
 import layers
 from utils import load_wav_to_torch, load_filepaths_and_text
@@ -54,8 +55,24 @@ class TextMelLoader(torch.utils.data.Dataset):
         return melspec
 
     def get_text(self, text):
+        arr = []
+        for word in text.split(' '):
+            if word in [' ', '']:
+                pass
+            elif word in [',', '.', '-']:
+                x = word
+                arr.append(x)
+            else:
+                x = self._maybe_get_arpabet(word)
+                arr.append(x)
+        text = ' '.join(arr)
         text_norm = torch.IntTensor(text_to_sequence(text, self.text_cleaners))
         return text_norm
+
+    def _maybe_get_arpabet(self, word):
+        pronunciations = phonetise(word)
+        toBeReturned = '{%s}' % pronunciations[0] if len(pronunciations)==1 else '{%s}' % pronunciations[1]
+        return toBeReturned
 
     def __getitem__(self, index):
         return self.get_mel_text_pair(self.audiopaths_and_text[index])

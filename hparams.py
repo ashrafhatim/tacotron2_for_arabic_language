@@ -32,7 +32,7 @@ def create_hparams(hparams_string=None, verbose=False):
         ################################
         # Audio Parameters             #
         ################################
-        max_wav_value=32768.0,
+        max_wav_value=1.0,
         sampling_rate=22050,
         filter_length=1024,
         hop_length=256,

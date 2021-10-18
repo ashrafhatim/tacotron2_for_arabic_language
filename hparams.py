@@ -10,7 +10,7 @@ def create_hparams(hparams_string=None, verbose=False):
         # Experiment Parameters        #
         ################################
         epochs=500,
-        iters_per_checkpoint=1000,
+        iters_per_checkpoint=100,
         seed=1234,
         dynamic_loss_scaling=True,
         fp16_run=False,
@@ -27,7 +27,7 @@ def create_hparams(hparams_string=None, verbose=False):
         load_mel_from_disk=False,
         training_files='filelists/ljs_audio_text_train_filelist.txt',
         validation_files='filelists/ljs_audio_text_val_filelist.txt',
-        text_cleaners=['english_cleaners'],
+        text_cleaners=['basic_cleaners'],
 
         ################################
         # Audio Parameters             #
@@ -79,7 +79,7 @@ def create_hparams(hparams_string=None, verbose=False):
         ################################
         use_saved_learning_rate=False,
         learning_rate=1e-3,
-        eps = 1e-6,
+        eps = 1e-8,
         weight_decay=1e-6,
         grad_clip_thresh=1.0,
         batch_size=8,

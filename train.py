@@ -93,7 +93,8 @@ def warm_start_model(checkpoint_path, model, ignore_layers):
         dummy_dict.update(model_dict)
         model_dict = dummy_dict
     model.load_state_dict(model_dict)
-    return model
+    iteration = checkpoint_dict['iteration'] if 'iteration' in checkpoint_dict.keys() else 0
+    return model, iteration
 
 
 def load_checkpoint(checkpoint_path, model, optimizer):
@@ -190,8 +191,9 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
     epoch_offset = 0
     if checkpoint_path is not None:
         if warm_start:
-            model = warm_start_model(
+            model, iteration = warm_start_model(
                 checkpoint_path, model, hparams.ignore_layers)
+            iteration += 1       
         else:
             model, optimizer, _learning_rate, iteration = load_checkpoint(
                 checkpoint_path, model, optimizer)

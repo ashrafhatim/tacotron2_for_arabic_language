@@ -67,7 +67,7 @@ def convert_to_ascii(text):
 
 def basic_cleaners(text):
   '''Basic pipeline that lowercases and collapses whitespace without transliteration.'''
-  # text = lowercase(text)
+  text = lowercase(text)
   text = collapse_whitespace(text)
   return text
 
@@ -86,5 +86,10 @@ def english_cleaners(text):
   text = lowercase(text)
   text = expand_numbers(text)
   text = expand_abbreviations(text)
+  text = collapse_whitespace(text)
+  return text
+
+def arabic_cleaners(text):
+  text = convert_to_ascii(text)  # not needed
   text = collapse_whitespace(text)
   return text
